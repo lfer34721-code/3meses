@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para ti ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+height:100vh;
+overflow:hidden;
+font-family:'Great Vibes',cursive;
+background:linear-gradient(270deg,#ff4e8a,#ff9ecf,#ffc3e6);
+background-size:600% 600%;
+animation:gradient 15s ease infinite;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+h1{
+font-size:60px;
+margin-bottom:20px;
+text-shadow:0 0 15px rgba(255,255,255,0.8);
+}
+
+.timer{
+margin-bottom:25px;
+font-size:22px;
+}
+
+/* MENSAJE TIPO ESCRITURA */
+
+.message{
+font-size:24px;
+line-height:1.8;
+max-width:700px;
+margin-top:20px;
+min-height:200px;
+white-space:pre-wrap;
+}
+
+/* CORAZONES */
+
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation:float 12s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0) scale(1);}
+100%{transform:translateY(-110vh) scale(1.6);opacity:0;}
+}
+
+/* ESTRELLAS */
+
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+opacity:.8;
+animation:twinkle 3s infinite;
+}
+
+@keyframes twinkle{
+0%,100%{opacity:.2;}
+50%{opacity:1;}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Babositaa de mi ❤️</h1>
+
+<div class="timer" id="timer"></div>
+
+<div class="message" id="message"></div>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4b3b1b0a8f.mp3">
+</audio>
+
+<script>
+
+/* REPRODUCIR MUSICA AUTOMÁTICA */
+window.addEventListener('load', function(){
+  const audio=document.getElementById("music");
+  const playPromise=audio.play();
+  if(playPromise!==undefined){
+    playPromise.catch(error=>{
+      // Si falla por autoplay, esperamos primer toque
+      window.addEventListener('click',()=>audio.play(),{once:true});
+    });
+  }
+});
+
+/* CONTADOR RELACION */
+
+const startDate=new Date("2025-12-14");
+
+function updateTimer(){
+const now=new Date();
+const diff=now-startDate;
+
+const days=Math.floor(diff/(1000*60*60*24));
+const hours=Math.floor(diff/(1000*60*60)%24);
+const minutes=Math.floor(diff/(1000*60)%60);
+
+document.getElementById("timer").innerHTML=
+"Llevamos juntos 💕 "+days+" días "+hours+" horas "+minutes+" minutos";
+}
+
+updateTimer();
+setInterval(updateTimer,1000);
+
+/* CORAZONES AUTOMÁTICOS LENTOS */
+
+function createHeart(){
+const heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="❤️";
+
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(Math.random()*25+15)+"px";
+heart.style.animationDuration=(Math.random()*8+10)+"s";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),12000);
+}
+
+setInterval(createHeart,500);
+
+/* ESTRELLAS */
+
+for(let i=0;i<60;i++){
+let star=document.createElement("div");
+star.classList.add("star");
+star.style.left=Math.random()*100+"vw";
+star.style.top=Math.random()*100+"vh";
+document.body.appendChild(star);
+}
+
+/* MENSAJE TIPO ESCRITURA */
+
+const text=`3 meses juntos bb! ... y aunque el tiempo parezca corto,
+
+cada momento contigo ha sido increíble.
+Tu sonrisa se volvió mi lugar favorito...
+
+tus abrazos mi paz...
+
+y tu amor mi suerte más bonita...❤️❤️❤️
+
+Gracias por aparecer en mi vida y hacerla más especial mi tontita ❤️
+
+Te quiero muchísimo ❤️`;
+
+const messageEl=document.getElementById("message");
+let index=0;
+
+function typeWriter(){
+if(index<text.length){
+messageEl.innerHTML+=text.charAt(index);
+index++;
+setTimeout(typeWriter,50);
+}
+}
+
+window.onload=typeWriter;
+
+</script>
+
+</body>
+</html>
